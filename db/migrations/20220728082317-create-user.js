@@ -23,7 +23,7 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
-      phome: {
+      phone: {
         type: Sequelize.STRING
       },
       password: {
@@ -53,7 +53,7 @@ module.exports = {
       disabilityType: {
         type: Sequelize.INTEGER
       },
-      disabiltyAids: {
+      disabilityAids: {
         type: Sequelize.STRING
       },
       detailsDisability: {
