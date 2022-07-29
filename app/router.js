@@ -16,18 +16,22 @@ const {
   Inclusion,
   Training,
   Vacancy,
-  User
+  User,
+  Education,
+  Experience
 } = require('./models');
 
 function apply(app) {  
   const trainingModel = Training;
   const inclusionModel = Inclusion;
   const vacancyModel = Vacancy;
-  const userModel = User
+  const userModel = User;
+  const educationModel = Education;
+  const experienceModel = Experience;
   
   const applicationControllers = new applicationController()
   const userControllers = new userController({
-    userModel, bcrypt, jwt
+    userModel, bcrypt, jwt, educationModel, experienceModel
   })
   const authenticationControllers = new authenticationController({
     userModel, bcrypt, jwt
@@ -47,8 +51,10 @@ function apply(app) {
   
   app.put('/auth/register', authenticationControllers.handleRegister)
   app.post('/auth/login', authenticationControllers.handleLogin)
-  app.put('/user' ,authenticationControllers.authorize, uploadOnMemory.any('picture'), handleUploadImage,userControllers.handleUpdateUser)
   
+  app.put('/user' ,authenticationControllers.authorize, uploadOnMemory.any('picture'), handleUploadImage,userControllers.handleUpdateUser)
+  app.post('/user/education', authenticationControllers.authorize, userControllers.handleAddEducation)
+  app.post('/user/experience', authenticationControllers.authorize, userControllers.handleAddExperience)  
 
   app.get('/inclusion-news', inclusionControllers.getAllinclusion)
   app.get('/inclusion-news/:id', inclusionControllers.getInclusionById)

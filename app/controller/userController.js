@@ -2,17 +2,23 @@ const applicationController = require('./applicationController');
 const {
   UserNotFound,
 } = require('../error');
-const { JWT_SIGNATURE_KEY } = require('../../config/application');
+const {
+  JWT_SIGNATURE_KEY
+} = require('../../config/application');
 
 class userController
-  extends applicationController {
+extends applicationController {
   constructor({
     userModel,
+    educationModel,
+    experienceModel,
     bcrypt,
     jwt,
   }) {
     super();
     this.userModel = userModel;
+    this.educationModel = educationModel;
+    this.experienceModel = experienceModel;
     this.bcrypt = bcrypt;
     this.jwt = jwt;
   }
@@ -68,7 +74,7 @@ class userController
       if (skill) {
         checkUser.skill = skill;
       }
-      
+
       const updateUser = await checkUser.save();
       if (updateUser) {
         res.status(200).json({
@@ -90,6 +96,78 @@ class userController
     }
   };
 
+  handleAddEducation = async (req, res, next) => {
+    try {
+      const {
+        institution,
+        level,
+        major,
+        gpa,
+        startMonth,
+        startYear,
+        endMonth,
+        endYear,
+      } = req.body;
+
+      const checkUser = await this.userModel.findByPk(req.user.id);
+      if (!checkUser) {
+        const error = new UserNotFound(email);
+        res.status(401).json(error);
+        return;
+      }
+
+      const addEducation = await this.educationModel.create({
+        userId: req.user.id,
+        institution,
+        level,
+        major,
+        gpa,
+        startMonth,
+        startYear,
+        endMonth,
+        endYear
+      });
+      res.status(201).json(addEducation);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  handleAddExperience = async (req, res, next) => {
+    try {
+      const {
+        institution,
+        jobsPosition,
+        jobsType,
+        startMonth,
+        startYear,
+        endMonth,
+        endYear,
+      } = req.body;
+
+      const checkUser = await this.userModel.findByPk(req.user.id);
+      if (!checkUser) {
+        const error = new UserNotFound(email);
+        res.status(401).json(error);
+        return;
+      }
+
+      const addExperience = await this.experienceModel.create({
+        userId: req.user.id,
+        institution,
+        jobsPosition,
+        jobsType,
+        startMonth,
+        startYear,
+        endMonth,
+        endYear,
+      });
+      res.status(201).json(addExperience);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   handleGetUser = async (req, res, next) => {
     try {
       const getUser = await this.userModel.findByPk(req.user.id);
@@ -109,11 +187,11 @@ class userController
           skill: getUser.skill,
         }
       });
-     } catch (err) {
+    } catch (err) {
       next(err);
-     }
+    }
   };
-  
+
   decodeToken = async (token) => {
     return await this.jwt.verify(token, JWT_SIGNATURE_KEY);
   };
