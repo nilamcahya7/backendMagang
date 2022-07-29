@@ -13,7 +13,8 @@ function apply(app) {
   const applicationControllers = new applicationController();
 
   app.get('/', applicationControllers.handleGetRoot);
-  
+  app.put('/v1/user/', authenticationControllers.authorize, userControllers.handleUpdateUser);
+  app.get('/v1/user/', authenticationControllers.authorize, userControllers.handleGetUser);
   return app;
 }
 
