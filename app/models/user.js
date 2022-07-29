@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     birthPlace: DataTypes.STRING,
     birthDate: DataTypes.DATE,
-    gender: DataTypes.BOOLEAN,
+    gender: DataTypes.STRING,
     address: DataTypes.STRING,
     description: DataTypes.TEXT,
     picture: DataTypes.STRING,
@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     disabilityType: DataTypes.INTEGER,
     disabilityAids: DataTypes.STRING,
     detailsDisability: DataTypes.STRING,
-    experience: DataTypes.STRING,
     skill: DataTypes.STRING,
     marital: DataTypes.STRING
   }, {

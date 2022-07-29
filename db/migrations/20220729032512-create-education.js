@@ -1,27 +1,39 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Trainings', {
+    await queryInterface.createTable('Education', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      tag: {
+      userId: {
+        type: Sequelize.INTEGER
+      },
+      institution: {
         type: Sequelize.STRING
       },
-      name: {
+      level: {
         type: Sequelize.STRING
       },
-      company: {
+      major: {
         type: Sequelize.STRING
       },
-      price: {
+      gpa: {
         type: Sequelize.FLOAT
       },
-      detail: {
-        type: Sequelize.TEXT
+      startMonth: {
+        type: Sequelize.STRING
+      },
+      startYear: {
+        type: Sequelize.INTEGER
+      },
+      endMonth: {
+        type: Sequelize.STRING
+      },
+      endYear: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +46,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Trainings');
+    await queryInterface.dropTable('Education');
   }
 };

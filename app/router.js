@@ -1,20 +1,63 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const handleUploadImage = require('./middleware/uploadOnCloudinary');
+const uploadOnMemory = require('./middleware/uploadOnMemory');
 
 const {
     applicationController,
+    inclusionController,
+    trainingController,
+    vacancyController,
+    authenticationController,
+    userController
 } = require('./controller');
 
 const {
-  
+  Inclusion,
+  Training,
+  Vacancy,
+  User
 } = require('./models');
 
 function apply(app) {  
-  const applicationControllers = new applicationController();
+  const trainingModel = Training;
+  const inclusionModel = Inclusion;
+  const vacancyModel = Vacancy;
+  const userModel = User
+  
+  const applicationControllers = new applicationController()
+  const userControllers = new userController({
+    userModel, bcrypt, jwt
+  })
+  const authenticationControllers = new authenticationController({
+    userModel, bcrypt, jwt
+  })
+  const inclusionControllers = new inclusionController({
+    inclusionModel
+  })
+  const trainingControllers = new trainingController({
+    trainingModel
+  }) 
+  const vacancyControllers = new vacancyController({
+    vacancyModel
+  })
+    
 
   app.get('/', applicationControllers.handleGetRoot);
-  app.put('/v1/user/', authenticationControllers.authorize, userControllers.handleUpdateUser);
-  app.get('/v1/user/', authenticationControllers.authorize, userControllers.handleGetUser);
+  
+  app.put('/auth/register', authenticationControllers.handleRegister)
+  app.post('/auth/login', authenticationControllers.handleLogin)
+  app.put('/user' ,authenticationControllers.authorize, uploadOnMemory.any('picture'), handleUploadImage,userControllers.handleUpdateUser)
+  
+
+  app.get('/inclusion-news', inclusionControllers.getAllinclusion)
+  app.get('/inclusion-news/:id', inclusionControllers.getInclusionById)
+
+  app.get('/training', trainingControllers.getAlltraining)
+  app.get('/training/:id', trainingControllers.getTrainingById)
+
+  app.get('/vacancy', vacancyControllers.getAllnVacancy)
+  app.get('/vacancy/:id', vacancyControllers.getVacancyById)
   return app;
 }
 
