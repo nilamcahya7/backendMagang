@@ -1,0 +1,128 @@
+[
+    {
+        "NIK" : "3215194700028123",
+        "fullName" : "Bintang Pramana",
+        "mother" : "Tati",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "2000-10-29",
+        "gender" : "Laki-Laki",
+        "marital" : "Belum Menikah"
+    },
+    {
+        "NIK" : "3215194700028753",
+        "fullName" : "Hartono",
+        "mother" : "Lina Herlina",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "1999-02-12",
+        "gender" : "Laki-Laki",
+        "marital" : "Belum Menikah"
+    },
+    {
+        "NIK" : "3215201900028123",
+        "fullName" : "Marlina",
+        "mother" : "Mona",
+        "birthPlace" : "Lampung",
+        "birthDate" : "2001-10-1",
+        "gender" : "Perempuan",
+        "marital" : "Belum Menikah"
+    },
+    {
+        "NIK" : "3215194741208123",
+        "fullName" : "Syifa Putri",
+        "mother" : "Anggia",
+        "birthPlace" : "Karawang",
+        "birthDate" : "2001-07-02",
+        "gender" : "Perempuan",
+        "marital" : "Belum Menikah"
+    },
+    {
+        "NIK" : "3215194700028218",
+        "fullName" : "Bambang",
+        "mother" : "Murti",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "2001-06-29",
+        "gender" : "Laki-Laki",
+        "marital" : "Belum Menikah"
+    },
+    {
+        "NIK" : "3215194700028124",
+        "fullName" : "Bintamana",
+        "mother" : "Shinta",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "2002-08-29",
+        "gender" : "Laki-Laki",
+        "marital" : "Belum Menikah"
+    },
+    {
+        "NIK" : "3215194700028125",
+        "fullName" : "Mamba",
+        "mother" : "Saroh",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "2000-10-11",
+        "gender" : "Laki-Laki",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028126",
+        "fullName" : "Laulau",
+        "mother" : "Miskah",
+        "birthPlace" : "Karawang",
+        "birthDate" : "2001-10-13",
+        "gender" : "Laki-Laki",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028127",
+        "fullName" : "Pratama",
+        "mother" : "Sri",
+        "birthPlace" : "Bandung",
+        "birthDate" : "1998-01-07",
+        "gender" : "Laki-Laki",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028128",
+        "fullName" : "Anggia",
+        "mother" : "Nula",
+        "birthPlace" : "Mimi",
+        "birthDate" : "1993-09-16",
+        "gender" : "Perempuan",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028129",
+        "fullName" : "Salma",
+        "mother" : "Iin",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "2001-03-25",
+        "gender" : "Perempuan",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028130",
+        "fullName" : "Nadia",
+        "mother" : "Milin",
+        "birthPlace" : "Surabaya",
+        "birthDate" : "1999-05-29",
+        "gender" : "Perempuan",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028131",
+        "fullName" : "Cahyani",
+        "mother" : "Wulan",
+        "birthPlace" : "Jakarta",
+        "birthDate" : "2001-10-19",
+        "gender" : "Perempuan",
+        "marital" : "Sudah Menikah"
+    },
+    {
+        "NIK" : "3215194700028132",
+        "fullName" : "Wulan",
+        "mother" : "Maria",
+        "birthPlace" : "Surabaya",
+        "birthDate" : "2002-11-03",
+        "gender" : "Perempuan",
+        "marital" : "Sudah Menikah"
+    }
+]

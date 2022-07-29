@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   Inclusion.init({
     publisher: DataTypes.STRING,
     title: DataTypes.STRING,
-    detail: DataTypes.TEXT
+    detail: DataTypes.TEXT,
+    image: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Inclusion',

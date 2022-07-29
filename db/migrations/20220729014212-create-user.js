@@ -23,7 +23,7 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
-      phome: {
+      phone: {
         type: Sequelize.STRING
       },
       password: {
@@ -36,7 +36,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       gender: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       address: {
         type: Sequelize.STRING
@@ -53,13 +53,10 @@ module.exports = {
       disabilityType: {
         type: Sequelize.INTEGER
       },
-      disabiltyAids: {
+      disabilityAids: {
         type: Sequelize.STRING
       },
       detailsDisability: {
-        type: Sequelize.STRING
-      },
-      experience: {
         type: Sequelize.STRING
       },
       skill: {
