@@ -2,7 +2,7 @@ const applicationError = require("./applicationError");
 
 class NIKwrong extends applicationError {
     constructor() {
-        super(`${NIK} WRONG!`);
+        super('NIK WRONG!');
     }
 
     get details() {
