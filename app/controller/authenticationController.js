@@ -81,7 +81,10 @@ class authenticationController extends applicationController {
           password: this.encryptPassword(password),
           phone,
         })
+
+        // Token Register
         const accessToken = await this.createTokenFromUser(user);
+        
         res.status(201).json({
           accessToken,
           user: {
@@ -110,54 +113,46 @@ class authenticationController extends applicationController {
         return;
       }
 
+        // Email Content Rules (Invalid)
+        const emailContent = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!email.match(emailContent)) {
+          const err = new emailInvalid();
+          res.status(401).json(err);
+          return;
+        }
 
+        // Existing User
+        const existingUserEmail = await this.userModel.findOne({
+          where: {
+            email,
+          }
+        });
 
-      //   Email Content Rules (Invalid)
-      //   const emailContent = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      //   if (!email.match(emailContent)) {
-      //     const err = new emailInvalid();
-      //     res.status(401).json(err);
-      //     return;
-      //   }
+        const existingUserPhone = await this.userModel.findOne({
+          where: {
+            phone
+          }
+        });
 
-      //   // Existing User (emailAlreadyTaken)
-      //   const existingUserEmail = await this.userModel.findOne({
-      //     where: {
-      //       email,
-      //     }
-      //   });
+        if (existingUserEmail) {
+          const err = new emailAlreadyTakenError(email);
+          res.status(422).json(err);
+          return;
+        }
 
-      //   const existingUserPhone = await this.userModel.findOne({
-      //     where: {
-      //       phone
-      //     }
-      //   });
+        if (existingUserPhone) {
+          const err = new phoneAlreadyTakenError(phone);
+          res.status(422).json(err);
+          return
+        }
 
-      //   if (existingUserEmail) {
-      //     const err = new emailAlreadyTakenError(email);
-      //     res.status(422).json(err);
-      //     return;
-      //   }
-
-      //   if (existingUserPhone) {
-      //     const err = new phoneAlreadyTakenError(phone);
-      //     res.status(422).json(err);
-      //     return
-      //   }
-
-      //   // // Password Content Rules (PasswordContentDoesntMatch)
-      //   const passwrodContent = '^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){1,}).{8,}$';
-      //   if (!password.match(passwrodContent)) {
-      //     const err = new passwordContentDoesntMatch();
-      //     res.status(401).json(err);
-      //     return;
-      //   }
-
-      // Create User
-
-
-      // Token Register
-
+        // // Password Content Rules (PasswordContentDoesntMatch)
+        const passwrodContent = '^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){1,}).{8,}$';
+        if (!password.match(passwrodContent)) {
+          const err = new passwordContentDoesntMatch();
+          res.status(401).json(err);
+          return;
+        }
     } catch (err) {
       next(err);
     }
@@ -254,7 +249,8 @@ class authenticationController extends applicationController {
   encryptPassword(password) {
     return this.bcrypt.hashSync(password, 10);
   };
-  // Token
+
+  // Login Token
   createTokenFromUser = (user) => this.jwt.sign({
     id: user.id,
     NIK: user.NIK,

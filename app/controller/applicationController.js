@@ -11,7 +11,7 @@ class applicationController {
             error: {
                 name: err.name,
                 message: err.message,
-                details: err.details || null,
+                details: err.details || null,N
             }
         });
     }
