@@ -7,7 +7,8 @@ const {
   passwordContentDoesntMatch,
   passwordIncorrect,
   phoneAlreadyTakenError,
-  dataDoesntMatch
+  dataDoesntMatch,
+  NIKwrong,
 } = require('../error')
 
 // untuk mendapatkan token
@@ -68,7 +69,7 @@ class authenticationController extends applicationController {
       })
 
       if (!checkDataUser) {
-        const err = new emailOrPhoneNotFound();
+        const err = new NIKwrong();
         res.status(401).json(err);
         return;
       }
