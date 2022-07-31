@@ -7,7 +7,8 @@ const {
   passwordContentDoesntMatch,
   passwordIncorrect,
   phoneAlreadyTakenError,
-  dataDoesntMatch
+  dataDoesntMatch,
+  NIKwrong,
 } = require('../error')
 
 // untuk mendapatkan token
@@ -60,6 +61,45 @@ class authenticationController extends applicationController {
         password
       } = req.body;
       const email = req.body.email.toLowerCase();
+      const emailContent = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!email.match(emailContent)) {
+        const err = new emailInvalid();
+        res.status(401).json(err);
+        return;
+      }
+
+      // Existing User
+      const existingUserEmail = await this.userModel.findOne({
+        where: {
+          email,
+        }
+      });
+
+      const existingUserPhone = await this.userModel.findOne({
+        where: {
+          phone
+        }
+      });
+
+      if (existingUserEmail) {
+        const err = new emailAlreadyTakenError(email);
+        res.status(422).json(err);
+        return;
+      }
+
+      if (existingUserPhone) {
+        const err = new phoneAlreadyTakenError(phone);
+        res.status(422).json(err);
+        return
+      }
+
+      // // Password Content Rules (PasswordContentDoesntMatch)
+      const passwrodContent = '^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){1,}).{8,}$';
+      if (!password.match(passwrodContent)) {
+        const err = new passwordContentDoesntMatch();
+        res.status(401).json(err);
+        return;
+      }
 
       const checkDataUser = await this.userModel.findOne({
         where: {
@@ -68,7 +108,7 @@ class authenticationController extends applicationController {
       })
 
       if (!checkDataUser) {
-        const err = new emailOrPhoneNotFound();
+        const err = new NIKwrong();
         res.status(401).json(err);
         return;
       }
@@ -84,7 +124,7 @@ class authenticationController extends applicationController {
 
         // Token Register
         const accessToken = await this.createTokenFromUser(user);
-        
+
         res.status(201).json({
           accessToken,
           user: {
@@ -93,18 +133,19 @@ class authenticationController extends applicationController {
             mother,
             phone,
             email,
+            shortName: user.shortName,
             picture: user.picture,
             headline: user.headline,
             disabilityType: user.disabilityType,
+            birthPlace: user.birthPlace,
             birthDate: user.birthDate,
             gender: user.gender,
             address: user.address,
             description: user.description,
             disabilityAids: user.disabilityAids,
-            detail: user.detail,
-            education: user.education,
-            experience: user.experience,
-            skills: user.skills,
+            detailsDisability: user.detailsDisability,
+            skill: user.skill,
+            marital: user.marital
           }
         });
       } else {
@@ -113,46 +154,8 @@ class authenticationController extends applicationController {
         return;
       }
 
-        // Email Content Rules (Invalid)
-        const emailContent = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (!email.match(emailContent)) {
-          const err = new emailInvalid();
-          res.status(401).json(err);
-          return;
-        }
+      // Email Content Rules (Invalid)
 
-        // Existing User
-        const existingUserEmail = await this.userModel.findOne({
-          where: {
-            email,
-          }
-        });
-
-        const existingUserPhone = await this.userModel.findOne({
-          where: {
-            phone
-          }
-        });
-
-        if (existingUserEmail) {
-          const err = new emailAlreadyTakenError(email);
-          res.status(422).json(err);
-          return;
-        }
-
-        if (existingUserPhone) {
-          const err = new phoneAlreadyTakenError(phone);
-          res.status(422).json(err);
-          return
-        }
-
-        // // Password Content Rules (PasswordContentDoesntMatch)
-        const passwrodContent = '^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){1,}).{8,}$';
-        if (!password.match(passwrodContent)) {
-          const err = new passwordContentDoesntMatch();
-          res.status(401).json(err);
-          return;
-        }
     } catch (err) {
       next(err);
     }
