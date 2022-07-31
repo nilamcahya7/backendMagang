@@ -7,7 +7,7 @@ const {
 } = require('../../config/application');
 
 class userController
-extends applicationController {
+  extends applicationController {
   constructor({
     userModel,
     educationModel,
@@ -36,7 +36,6 @@ extends applicationController {
         detailsDisability,
         skill,
       } = req.body;
-      const picture = req.img[0];
 
       const checkUser = await this.userModel.findByPk(req.user.id);
       if (!checkUser) {
@@ -49,9 +48,6 @@ extends applicationController {
       }
       if (shortName) {
         checkUser.shortName = shortName;
-      }
-      if (picture) {
-        checkUser.picture = picture;
       }
       if (headline) {
         checkUser.headline = headline;
@@ -78,7 +74,7 @@ extends applicationController {
       const updateUser = await checkUser.save();
       if (updateUser) {
         res.status(200).json({
-          id: req.params.id,
+          id: req.user.id,
           shortName: checkUser.shortName,
           phone: checkUser.phone,
           picture: checkUser.picture,
@@ -168,23 +164,54 @@ extends applicationController {
     }
   }
 
+  handleUploadPicture = async (req, res, next) => {
+    try {
+      const picture = req.img;
+
+      const uploadPicture = await this.userModel.findByPk(req.user.id);
+      if (!uploadPicture) {
+        const error = new UserNotFound(email);
+        res.status(401).json(error);
+        return;
+      }
+      if (picture) {
+        uploadPicture.picture = picture;
+      }
+
+      const updatePicture = await uploadPicture.save();
+      if (updatePicture) {
+        res.status(200).json({
+          picture: uploadPicture.picture,
+        })
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
+
   handleGetUser = async (req, res, next) => {
     try {
       const getUser = await this.userModel.findByPk(req.user.id);
       res.status(200).json({
         data: {
-          id: getUser.id,
-          fullName: getUser.fullName,
-          email: getUser.email,
+          NIK : getUser.NIK,
+          shortName: getUser.shortName,
+          fullName : getUser.fullName,
+          mother: getUser.mother,
           phone: getUser.phone,
+          email : getUser.email,
           picture: getUser.picture,
-          position: getUser.position,
+          headline: getUser.headline,
           disabilityType: getUser.disabilityType,
+          birthPlace: getUser.birthPlace,
+          birthDate: getUser.birthDate,
+          gender: getUser.gender,
           address: getUser.address,
           description: getUser.description,
           disabilityAids: getUser.disabilityAids,
-          detail: getUser.detail,
+          detailsDisability: getUser.detailsDisability,
           skill: getUser.skill,
+          marital: getUser.marital
         }
       });
     } catch (err) {
