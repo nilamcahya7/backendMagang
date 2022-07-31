@@ -52,9 +52,11 @@ function apply(app) {
   app.put('/auth/register', authenticationControllers.handleRegister)
   app.post('/auth/login', authenticationControllers.handleLogin)
   
-  app.put('/user' ,authenticationControllers.authorize, uploadOnMemory.any('picture'), handleUploadImage,userControllers.handleUpdateUser)
+  app.put('/user', authenticationControllers.authorize, userControllers.handleUpdateUser)
+  app.put('/user/picture', authenticationControllers.authorize, uploadOnMemory.single('picture'), handleUploadImage, userControllers.handleUploadPicture)
   app.post('/user/education', authenticationControllers.authorize, userControllers.handleAddEducation)
   app.post('/user/experience', authenticationControllers.authorize, userControllers.handleAddExperience)  
+  app.get('/user', authenticationControllers.authorize, userControllers.handleGetUser)
 
   app.get('/inclusion-news', inclusionControllers.getAllinclusion)
   app.get('/inclusion-news/:id', inclusionControllers.getInclusionById)
