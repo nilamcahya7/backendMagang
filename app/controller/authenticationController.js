@@ -61,6 +61,7 @@ class authenticationController extends applicationController {
         password
       } = req.body;
       const email = req.body.email.toLowerCase();
+
       const emailContent = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       if (!email.match(emailContent)) {
         const err = new emailInvalid();
@@ -101,61 +102,41 @@ class authenticationController extends applicationController {
         return;
       }
 
-      const checkDataUser = await this.userModel.findOne({
-        where: {
-          NIK
-        }
+
+      const user = await this.userModel.create({
+        NIK,
+        fullName,
+        email,
+        mother,
+        password: this.encryptPassword(password),
+        phone,
       })
 
-      if (!checkDataUser) {
-        const err = new NIKwrong();
-        res.status(401).json(err);
-        return;
-      }
-      if (req.body.NIK.match(checkDataUser.NIK) && req.body.mother.match(checkDataUser.mother) && req.body.fullName.match(checkDataUser.fullName)) {
-        const user = await checkDataUser.update({
+      // Token Register
+      const accessToken = await this.createTokenFromUser(user);
+      res.status(201).json({
+        accessToken,
+        user: {
           NIK,
           fullName,
-          email,
           mother,
-          password: this.encryptPassword(password),
           phone,
-        })
-
-        // Token Register
-        const accessToken = await this.createTokenFromUser(user);
-
-        res.status(201).json({
-          accessToken,
-          user: {
-            NIK,
-            fullName,
-            mother,
-            phone,
-            email,
-            shortName: user.shortName,
-            picture: user.picture,
-            headline: user.headline,
-            disabilityType: user.disabilityType,
-            birthPlace: user.birthPlace,
-            birthDate: user.birthDate,
-            gender: user.gender,
-            address: user.address,
-            description: user.description,
-            disabilityAids: user.disabilityAids,
-            detailsDisability: user.detailsDisability,
-            skill: user.skill,
-            marital: user.marital
-          }
-        });
-      } else {
-        const err = new dataDoesntMatch();
-        res.status(401).json(err);
-        return;
-      }
-
-      // Email Content Rules (Invalid)
-
+          email,
+          shortName: user.shortName,
+          picture: user.picture,
+          headline: user.headline,
+          disabilityType: user.disabilityType,
+          birthPlace: user.birthPlace,
+          birthDate: user.birthDate,
+          gender: user.gender,
+          address: user.address,
+          description: user.description,
+          disabilityAids: user.disabilityAids,
+          detailsDisability: user.detailsDisability,
+          skill: user.skill,
+          marital: user.marital
+        }
+      });
     } catch (err) {
       next(err);
     }

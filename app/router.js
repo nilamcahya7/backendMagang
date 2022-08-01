@@ -49,7 +49,7 @@ function apply(app) {
 
   app.get('/', applicationControllers.handleGetRoot);
   
-  app.put('/auth/register', authenticationControllers.handleRegister)
+  app.post('/auth/register', authenticationControllers.handleRegister)
   app.post('/auth/login', authenticationControllers.handleLogin)
   
   app.put('/user', authenticationControllers.authorize, userControllers.handleUpdateUser)
