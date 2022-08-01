@@ -35,6 +35,10 @@ class userController
         disabilityAids,
         detailsDisability,
         skill,
+        birthDate,
+        birthPlace,
+        gender,
+        marital
       } = req.body;
 
       const checkUser = await this.userModel.findByPk(req.user.id);
@@ -45,6 +49,18 @@ class userController
       }
       if (phone) {
         checkUser.phone = phone;
+      }
+      if (birthPlace) {
+        checkUser.birthPlace = birthPlace;
+      }
+      if (birthDate) {
+        checkUser.birthDate = birthDate;
+      }
+      if (gender) {
+        checkUser.gender = gender;
+      }
+      if (marital) {
+        checkUser.marital = marital;
       }
       if (shortName) {
         checkUser.shortName = shortName;
@@ -85,6 +101,10 @@ class userController
           disabilityAids: checkUser.disabilityAids,
           detailsDisability: checkUser.detailsDisability,
           skill: checkUser.skill,
+          birthDate: checkUser.birthDate,
+          birthPlace: checkUser.birthPlace,
+          gender: checkUser.gender,
+          marital: checkUser.marital
         })
       }
     } catch (err) {
