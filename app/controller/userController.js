@@ -38,7 +38,7 @@ class userController
         birthDate,
         birthPlace,
         gender,
-        marital
+        marital,
       } = req.body;
 
       const checkUser = await this.userModel.findByPk(req.user.id);
@@ -91,8 +91,12 @@ class userController
       if (updateUser) {
         res.status(200).json({
           id: req.user.id,
+          NIK : checkUser.NIK,
+          fullName: checkUser.fullName,
+          mother : checkUser.mother,
+          phone : checkUser.phone,
+          email: checkUser.email,
           shortName: checkUser.shortName,
-          phone: checkUser.phone,
           picture: checkUser.picture,
           headline: checkUser.headline,
           disabilityType: checkUser.disabilityType,
@@ -202,6 +206,23 @@ class userController
       if (updatePicture) {
         res.status(200).json({
           picture: uploadPicture.picture,
+          NIK : uploadPicture.NIK,
+          fullName: uploadPicture.fullName,
+          mother : uploadPicture.mother,
+          phone : uploadPicture.phone,
+          email: uploadPicture.email,
+          shortName: uploadPicture.shortName,
+          headline: uploadPicture.headline,
+          disabilityType: uploadPicture.disabilityType,
+          address: uploadPicture.address,
+          description: uploadPicture.description,
+          disabilityAids: uploadPicture.disabilityAids,
+          detailsDisability: uploadPicture.detailsDisability,
+          skill: uploadPicture.skill,
+          birthDate: uploadPicture.birthDate,
+          birthPlace: uploadPicture.birthPlace,
+          gender: uploadPicture.gender,
+          marital: uploadPicture.marital
         })
       }
     } catch (err) {
