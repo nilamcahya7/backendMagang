@@ -38,7 +38,7 @@ class userController
         birthDate,
         birthPlace,
         gender,
-        marital,
+        marital
       } = req.body;
 
       const checkUser = await this.userModel.findByPk(req.user.id);
