@@ -55,7 +55,8 @@ function apply(app) {
   app.put('/user', authenticationControllers.authorize, userControllers.handleUpdateUser)
   app.put('/user/picture', authenticationControllers.authorize, uploadOnMemory.single('picture'), handleUploadImage, userControllers.handleUploadPicture)
   app.post('/user/education', authenticationControllers.authorize, userControllers.handleAddEducation)
-  app.post('/user/experience', authenticationControllers.authorize, userControllers.handleAddExperience)  
+  app.get('/education', authenticationControllers.authorize, userControllers.handleGetEducation)
+  app.post('/user/experience', authenticationControllers.authorize, userControllers.handleAddExperience)
   app.get('/user', authenticationControllers.authorize, userControllers.handleGetUser)
 
   app.get('/inclusion-news', inclusionControllers.getAllinclusion)
