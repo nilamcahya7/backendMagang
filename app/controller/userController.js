@@ -260,6 +260,22 @@ class userController
     }
   };
 
+  handleGetEducation = async (req, res, next) => {
+    try {
+      const user = req.user.id;
+      const education = {
+        attributes : {exclude : ['createdAt', 'updatedAt']},
+        where : {
+          userId: user
+        }
+      }
+      const getEducation = await this.educationModel.findAll(education);
+      res.status(200).json(getEducation);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   decodeToken = async (token) => {
     return await this.jwt.verify(token, JWT_SIGNATURE_KEY);
   };
