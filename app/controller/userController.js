@@ -38,7 +38,7 @@ class userController
         birthDate,
         birthPlace,
         gender,
-        marital
+        marital,
       } = req.body;
 
       const checkUser = await this.userModel.findByPk(req.user.id);
@@ -259,6 +259,38 @@ class userController
       next(err);
     }
   };
+
+  handleGetEducation = async (req, res, next) => {
+    try {
+      const user = req.user.id;
+      const education = {
+        attributes : {exclude : ['createdAt', 'updatedAt']},
+        where : {
+          userId: user
+        }
+      }
+      const getEducation = await this.educationModel.findAll(education);
+      res.status(200).json(getEducation);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  handleGetExperience = async (req, res, next) => {
+    try {
+      const user = req.user.id;
+      const experience = {
+        attributes : {exclude : ['createdAt', 'updatedAt']},
+        where : {
+          userId: user
+        }
+      }
+      const getExperience = await this.experienceModel.findAll(experience);
+      res.status(200).json(getExperience);
+    } catch (err) {
+      next(err);
+    }
+  }
 
   decodeToken = async (token) => {
     return await this.jwt.verify(token, JWT_SIGNATURE_KEY);
