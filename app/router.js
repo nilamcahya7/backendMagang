@@ -57,6 +57,7 @@ function apply(app) {
   app.post('/user/education', authenticationControllers.authorize, userControllers.handleAddEducation)
   app.get('/education', authenticationControllers.authorize, userControllers.handleGetEducation)
   app.post('/user/experience', authenticationControllers.authorize, userControllers.handleAddExperience)
+  app.get('/experience', authenticationControllers.authorize, userControllers.handleGetExperience)
   app.get('/user', authenticationControllers.authorize, userControllers.handleGetUser)
 
   app.get('/inclusion-news', inclusionControllers.getAllinclusion)
