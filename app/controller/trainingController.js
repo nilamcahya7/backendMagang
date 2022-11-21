@@ -25,7 +25,7 @@ class trainingController extends applicationController {
                     id,
                 },
             });
-            return res.status(201).json(training);
+            return res.status(200).json(training);
 
         } catch (err) {
             next(err);

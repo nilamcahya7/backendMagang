@@ -1,5 +1,6 @@
 const applicationController = require('./applicationController');
 
+// Handle error 
 const {
   emailAlreadyTakenError,
   emailInvalid,
@@ -7,8 +8,6 @@ const {
   passwordContentDoesntMatch,
   passwordIncorrect,
   phoneAlreadyTakenError,
-  dataDoesntMatch,
-  NIKwrong,
 } = require('../error')
 
 // untuk mendapatkan token
@@ -28,22 +27,22 @@ class authenticationController extends applicationController {
     this.jwt = jwt;
   }
 
-  // Authorize
+  // Authorize => memvalidasi token dan usernya atau tidak
   authorize = async (req, res, next) => {
     try {
       const token = req.headers.authorization?.split('Bearer ')[1];
       const payload = await this.decodeToken(token);
-      req.user = payload;
+      req.user = payload; 
       next();
     } catch (err) {
       let catchErr = null;
-      if (err.details) {
+      if (err.details) { 
         catchErr = err.details;
       }
       res.status(401).json({
         error: {
-          name: err.name,
-          message: err.message,
+          name: err.name, 
+          message: err.message, 
           details: err.details,
         },
       });
@@ -157,8 +156,8 @@ class authenticationController extends applicationController {
           const data = {
             id: checkUserByEmail.id
           }
-          const accessToken = await this.createTokenFromUser(data)
-          return res.status(201).json({
+          const accessToken = await this.createTokenFromUser(data) 
+          return res.status(200).json({
             accessToken,
             user: {
               NIK: checkUserByEmail.NIK,
@@ -195,25 +194,24 @@ class authenticationController extends applicationController {
           return res.status(201).json({
             accessToken,
             user: {
-              shortName: DataTypes.STRING,
-              fullName: DataTypes.STRING,
-              NIK: DataTypes.STRING,
-              mother: DataTypes.STRING,
-              email: DataTypes.STRING,
-              phone: DataTypes.STRING,
-              password: DataTypes.STRING,
-              birthPlace: DataTypes.STRING,
-              birthDate: DataTypes.DATE,
-              gender: DataTypes.STRING,
-              address: DataTypes.STRING,
-              description: DataTypes.TEXT,
-              picture: DataTypes.STRING,
-              headline: DataTypes.STRING,
-              disabilityType: DataTypes.INTEGER,
-              disabilityAids: DataTypes.STRING,
-              detailsDisability: DataTypes.STRING,
-              skill: DataTypes.STRING,
-              marital: DataTypes.STRING
+              NIK: checkUserByPhone.NIK,
+              shortName: checkUserByPhone.shortName,
+              fullName: checkUserByPhone.fullName,
+              mother: checkUserByPhone.mother,
+              phone: checkUserByPhone.phone,
+              email: checkUserByPhone.email,
+              picture: checkUserByPhone.picture,
+              headline: checkUserByPhone.headline,
+              disabilityType: checkUserByPhone.disabilityType,
+              birthPlace: checkUserByPhone.birthPlace,
+              birthDate: checkUserByPhone.birthDate,
+              gender: checkUserByPhone.gender,
+              address: checkUserByPhone.address,
+              description: checkUserByPhone.description,
+              disabilityAids: checkUserByPhone.disabilityAids,
+              detailsDisability: checkUserByPhone.detailsDisability,
+              skill: checkUserByPhone.skill,
+              marital: checkUserByPhone.marital
             }
           })
         } else {
