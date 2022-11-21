@@ -8,8 +8,6 @@ const {
   passwordContentDoesntMatch,
   passwordIncorrect,
   phoneAlreadyTakenError,
-  dataDoesntMatch,
-  NIKwrong,
 } = require('../error')
 
 // untuk mendapatkan token
