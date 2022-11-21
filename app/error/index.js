@@ -4,8 +4,6 @@ const emailOrPhoneNotFound = require('./emailOrPhoneNotFound');
 const passwordContentDoesntMatch = require('./passwordContentDoesntMatch');
 const passwordIncorrect = require('./passwordIncorrect');
 const phoneAlreadyTakenError = require('./phoneAlreadyTakenError');
-const dataDoesntMatch = require('./dataDoesntMatch');
-const NIKwrong = require('./NIKwrong')
 
 module.exports = {
     emailAlreadyTakenError,
@@ -14,6 +12,4 @@ module.exports = {
     passwordContentDoesntMatch,
     passwordIncorrect,
     phoneAlreadyTakenError,
-    dataDoesntMatch,
-    NIKwrong
 };
